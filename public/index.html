@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff5a36">
+  <meta name="description" content="EasyFood — um painel moderno para organizar e cadastrar seus restaurantes favoritos.">
+  <title>EasyFood — Seu universo gastronômico</title>
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260919">
+</head>
+<body data-page="home">
+  <div class="noise" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="loading-shell" id="loadingScreen">
+    <section class="loading-card glass-card" aria-live="polite">
+      <div class="loading-mark">
+        <span class="loading-orbit orbit-one"></span>
+        <span class="loading-orbit orbit-two"></span>
+        <span class="loading-core">EF</span>
+      </div>
+      <p>Preparando seu universo gastronômico...</p>
+    </section>
+  </main>
+
+  <main class="site-shell hidden" id="appContent">
+    <nav class="topbar glass-card" aria-label="Navegação principal">
+      <a class="brand" href="#top" aria-label="EasyFood">
+        <span class="brand-icon">✦</span>
+        <span>EasyFood</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#overview">Visão geral</a>
+        <a href="#catalogo">Restaurantes</a>
+        <a href="#cadastro">Cadastrar</a>
+      </div>
+
+      <div class="account-area">
+        <div class="user-chip">
+          <span class="avatar" id="userAvatar">E</span>
+          <span class="user-meta">
+            <strong id="authStatus">Usuário autenticado</strong>
+            <small>Conta ativa</small>
+          </span>
+        </div>
+        <button type="button" id="logoutButton" class="icon-button" aria-label="Sair da conta" title="Sair">↗</button>
+      </div>
+    </nav>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <section class="hero-section section-anchor" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Gestão gastronômica sem complicação</div>
+        <h1>Seu universo de restaurantes, <span>em uma única experiência.</span></h1>
+        <p class="hero-text">Organize seus estabelecimentos favoritos, acompanhe avaliações e mantenha tudo visualmente simples para decidir o próximo lugar.</p>
+
+        <div class="hero-actions">
+          <a class="primary-cta" href="#cadastro">Cadastrar restaurante <span>↓</span></a>
+          <a class="secondary-cta" href="#catalogo">Explorar catálogo <span>→</span></a>
+        </div>
+
+        <div class="trust-row" aria-label="Informações da plataforma">
+          <div class="trust-item"><strong>100%</strong><span>foco na experiência</span></div>
+          <div class="trust-divider"></div>
+          <div class="trust-item"><strong>3D</strong><span>interface responsiva</span></div>
+          <div class="trust-divider"></div>
+          <div class="trust-item"><strong>24/7</strong><span>seu catálogo acessível</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="visual-glow"></div>
+        <div class="scene scene-backdrop">
+          <div class="orb orb-large"></div>
+          <div class="orb orb-small"></div>
+          <div class="floating-card floating-card-top tilt-card" data-tilt-strength="5">
+            <span class="mini-icon">★</span>
+            <span><b>Experiência</b><small>leve e intuitiva</small></span>
+          </div>
+          <div class="floating-card floating-card-right tilt-card" data-tilt-strength="7">
+            <span class="mini-icon warm">✦</span>
+            <span><b>Favoritos</b><small>sempre por perto</small></span>
+          </div>
+          <div class="plate-card tilt-card" data-tilt-strength="4">
+            <div class="plate-shadow"></div>
+            <div class="plate">
+              <div class="plate-inner">
+                <div class="food-art">
+                  <span class="food-ring ring-a"></span>
+                  <span class="food-ring ring-b"></span>
+                  <span class="food-leaf leaf-a"></span>
+                  <span class="food-leaf leaf-b"></span>
+                  <span class="food-dot dot-a"></span>
+                  <span class="food-dot dot-b"></span>
+                  <span class="food-dot dot-c"></span>
+                </div>
+              </div>
+            </div>
+            <div class="plate-label"><span>easy</span><strong>FOOD</strong></div>
+          </div>
+          <div class="floating-tag tag-left">Taste better</div>
+          <div class="floating-tag tag-bottom">+ organizado</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section section-anchor reveal" id="overview">
+      <div class="section-heading compact-heading">
+        <div>
+          <span class="section-kicker">Agora no seu painel</span>
+          <h2>Uma visão rápida do seu catálogo.</h2>
+        </div>
+        <p>Os números abaixo acompanham os dados reais carregados pelo seu EasyFood.</p>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card tilt-card" data-tilt-strength="4">
+          <div class="stat-icon icon-coral">◉</div>
+          <div><span>Total</span><strong id="totalRestaurantes">0</strong><small>restaurantes cadastrados</small></div>
+        </article>
+        <article class="stat-card tilt-card" data-tilt-strength="4">
+          <div class="stat-icon icon-purple">✦</div>
+          <div><span>Categorias</span><strong id="totalCategorias">0</strong><small>estilos diferentes</small></div>
+        </article>
+        <article class="stat-card tilt-card" data-tilt-strength="4">
+          <div class="stat-icon icon-gold">★</div>
+          <div><span>Média</span><strong id="mediaAvaliacoes">—</strong><small>avaliação do catálogo</small></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="feature-strip reveal-group">
+      <div class="feature-card feature-card-dark tilt-card" data-tilt-strength="5">
+        <div class="feature-number">01</div>
+        <span class="feature-icon">◎</span>
+        <h3>Centralize</h3>
+        <p>Nome, categoria e avaliação em um catálogo visual e fácil de percorrer.</p>
+        <span class="feature-arrow">↗</span>
+      </div>
+      <div class="feature-card feature-card-light tilt-card" data-tilt-strength="5">
+        <div class="feature-number">02</div>
+        <span class="feature-icon">◌</span>
+        <h3>Filtre</h3>
+        <p>Encontre rapidamente um grupo de restaurantes usando a categoria.</p>
+        <span class="feature-arrow">↗</span>
+      </div>
+      <div class="feature-card feature-card-warm tilt-card" data-tilt-strength="5">
+        <div class="feature-number">03</div>
+        <span class="feature-icon">✧</span>
+        <h3>Decida</h3>
+        <p>Compare avaliações de forma simples antes de escolher onde comer.</p>
+        <span class="feature-arrow">↗</span>
+      </div>
+    </section>
+
+    <section class="workspace-section section-anchor reveal" id="cadastro">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">Seu próximo registro</span>
+          <h2>Adicione um novo restaurante.</h2>
+        </div>
+        <p>Preencha os três campos e o novo estabelecimento aparecerá no catálogo.</p>
+      </div>
+
+      <section class="form-panel glass-card">
+        <div class="form-panel-copy">
+          <div class="panel-badge">NOVO</div>
+          <h3>Coloque um novo sabor no mapa.</h3>
+          <p>Quanto mais organizado seu catálogo, mais fácil fica encontrar o lugar certo para cada momento.</p>
+          <div class="micro-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+
+        <form id="formCadastro" class="restaurant-form">
+          <label>
+            <span>Nome do restaurante</span>
+            <input type="text" id="name" maxlength="120" placeholder="Ex.: Casa da Massa" autocomplete="off" required>
+          </label>
+          <label>
+            <span>Categoria</span>
+            <input type="text" id="category" maxlength="80" placeholder="Ex.: Italiana" autocomplete="off" required>
+          </label>
+          <label>
+            <span>Avaliação</span>
+            <div class="rating-input">
+              <input type="number" id="rating" step="0.1" min="0" max="5" placeholder="0.0 — 5.0" required>
+              <span>★ / 5</span>
+            </div>
+          </label>
+          <button type="submit" id="submitButton" class="submit-button">Cadastrar restaurante <span>→</span></button>
+        </form>
+      </section>
+    </section>
+
+    <section class="catalog-section section-anchor reveal" id="catalogo">
+      <div class="catalog-top">
+        <div class="section-heading no-margin">
+          <div>
+            <span class="section-kicker">Catálogo</span>
+            <h2>Seus restaurantes.</h2>
+          </div>
+          <p>Explore os estabelecimentos salvos e filtre por categoria.</p>
+        </div>
+        <label class="filter-wrap">
+          <span>Filtrar por categoria</span>
+          <div class="select-shell">
+            <select id="filtroCategory">
+              <option value="">Todas as categorias</option>
+            </select>
+            <span>⌄</span>
+          </div>
+        </label>
+      </div>
+
+      <div id="listaRestaurantes" class="restaurants-grid">
+        <div class="empty-state glass-card">
+          <div class="empty-art">✦</div>
+          <h3>Carregando seu catálogo...</h3>
+          <p>Estamos buscando os restaurantes salvos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section reveal">
+      <div class="closing-glow"></div>
+      <div class="closing-copy">
+        <span class="section-kicker">EasyFood</span>
+        <h2>Mais organização.<br><span>Mais espaço para escolher.</span></h2>
+        <p>Uma experiência feita para deixar seu catálogo tão agradável quanto a próxima refeição.</p>
+      </div>
+      <a class="closing-cta" href="#cadastro">Cadastrar restaurante <span>↗</span></a>
+    </section>
+
+    <footer class="site-footer">
+      <div class="brand footer-brand"><span class="brand-icon">✦</span><span>EasyFood</span></div>
+      <p>Seu universo gastronômico, mais perto.</p>
+      <a href="#top">Voltar ao topo ↑</a>
+    </footer>
+  </main>
+
+  <script src="/assets/js/app.js?v=20260919" defer></script>
+</body>
+</html>

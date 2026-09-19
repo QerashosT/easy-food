@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff5a36">
+  <meta name="description" content="Crie sua conta EasyFood.">
+  <title>Criar conta — EasyFood</title>
+  <link rel="stylesheet" href="/assets/css/auth.css?v=20260919">
+</head>
+<body data-page="register">
+  <div class="auth-noise" aria-hidden="true"></div>
+  <div class="auth-ambient ambient-a" aria-hidden="true"></div>
+  <div class="auth-ambient ambient-b" aria-hidden="true"></div>
+
+  <main class="auth-shell reverse-on-small">
+    <section class="auth-story">
+      <a class="auth-brand" href="/" aria-label="EasyFood">
+        <span class="brand-mark">✦</span>
+        <span>EasyFood</span>
+      </a>
+
+      <div class="story-copy">
+        <span class="story-kicker">Comece agora</span>
+        <h1>Crie seu espaço para deixar cada escolha <span>mais fácil.</span></h1>
+        <p>Cadastre sua conta e transforme uma lista de restaurantes em uma experiência visual, organizada e pronta para crescer.</p>
+      </div>
+
+      <div class="auth-scene" aria-hidden="true">
+        <div class="scene-ring ring-one"></div>
+        <div class="scene-ring ring-two"></div>
+        <div class="food-sphere tilt-auth" data-tilt-strength="5">
+          <div class="sphere-inner">
+            <div class="sphere-plate plate-register">
+              <span class="sphere-leaf leaf-one"></span>
+              <span class="sphere-leaf leaf-two"></span>
+              <span class="sphere-dot dot-one"></span>
+              <span class="sphere-dot dot-two"></span>
+              <span class="sphere-dot dot-three"></span>
+            </div>
+          </div>
+        </div>
+        <div class="orbit-chip chip-top"><span>✦</span> simples</div>
+        <div class="orbit-chip chip-right"><span>◎</span> organizado</div>
+        <div class="orbit-chip chip-left"><span>★</span> pessoal</div>
+      </div>
+
+      <div class="story-footer"><span>EasyFood</span><span>•</span><span>Seu catálogo começa aqui.</span></div>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-form-wrap register-wrap">
+        <div class="mobile-brand"><span class="brand-mark">✦</span> EasyFood</div>
+        <span class="form-kicker">Nova conta</span>
+        <h2>Crie sua conta</h2>
+        <p class="form-subtitle">Leva menos de um minuto para começar.</p>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+
+        <form id="registerForm" class="auth-form">
+          <label>
+            <span>Nome</span>
+            <input type="text" id="name" minlength="2" maxlength="120" autocomplete="name" placeholder="Como podemos te chamar?" required>
+          </label>
+          <label>
+            <span>E-mail</span>
+            <input type="email" id="email" autocomplete="email" placeholder="voce@exemplo.com" required>
+          </label>
+          <label>
+            <span>Senha</span>
+            <input type="password" id="password" minlength="6" autocomplete="new-password" placeholder="Mínimo de 6 caracteres" required>
+          </label>
+          <label>
+            <span>Confirmar senha</span>
+            <input type="password" id="confirmPassword" minlength="6" autocomplete="new-password" placeholder="Digite novamente" required>
+          </label>
+          <button type="submit" id="submitButton" class="auth-submit">Criar conta <span>→</span></button>
+        </form>
+
+        <div class="auth-divider"><span>já possui acesso?</span></div>
+        <p class="switch"><a href="/auth/login">Voltar para o login</a></p>
+        <p class="auth-note">Seus dados de cadastro continuam protegidos pelo fluxo de autenticação existente.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/assets/js/auth.js?v=20260919" defer></script>
+</body>
+</html>
