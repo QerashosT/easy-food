@@ -16,12 +16,13 @@ export function verifyJWT(req, res, next) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!payload.sub || !payload.email) {
+    const userId = Number(payload.sub);
+    if (!Number.isSafeInteger(userId) || userId <= 0 || !payload.email) {
       return res.status(401).json({ error: 'Token inválido' });
     }
 
     req.user = {
-      id: Number(payload.sub),
+      id: userId,
       email: payload.email
     };
 

@@ -7,7 +7,7 @@ const router = Router();
 // A listagem continua pública para manter a API existente.
 router.get('/restaurants', getRestaurants);
 
-// Cadastro exige uma sessão válida.
+// O usuário autenticado passa a ser o proprietário do restaurante que cadastrou.
 router.post('/restaurants', verifyJWT, postRestaurant);
 
 export default router;

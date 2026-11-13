@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './modules/auth/auth.routes.js';
 import restaurantRoutes from './modules/restaurants/restaurantRoutes.js';
+import dishRoutes from './modules/restaurants/dishRoutes.js';
 import pageRoutes from './routes/pageRoutes.js';
 
 const app = express();
@@ -38,12 +39,21 @@ app.use('/assets/js', express.static(path.join(publicDir, 'js'), {
   maxAge: '1h'
 }));
 
+// Fotos de perfil e de pratos são armazenadas com nomes aleatórios em disco.
+app.use('/uploads', express.static(path.join(publicDir, 'uploads'), {
+  index: false,
+  fallthrough: true,
+  maxAge: '1d',
+  immutable: true
+}));
+
 // Páginas da aplicação.
 app.use(pageRoutes);
 
 // API existente
 app.use('/auth', authRoutes);
 app.use(restaurantRoutes);
+app.use(dishRoutes);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok' });
@@ -53,6 +63,7 @@ app.get('/health', (_req, res) => {
 app.use((req, res) => {
   const wantsJson = req.path.startsWith('/auth') ||
     req.path.startsWith('/restaurants') ||
+    req.path.startsWith('/dishes') ||
     req.path.startsWith('/api') ||
     req.accepts(['html', 'json']) === 'json';
 
@@ -70,6 +81,19 @@ app.use((req, res) => {
 
 app.use((err, _req, res, _next) => {
   console.error('Erro não tratado:', err);
+
+  if (err?.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'O envio excede o limite permitido.' });
+  }
+
+  if (err?.name === 'MulterError') {
+    const status = err.status || (err.code === 'LIMIT_FILE_SIZE' ? 413 : 400);
+    return res.status(status).json({ error: err.message || 'Erro ao receber a imagem.' });
+  }
+
+  if (Number.isInteger(err?.status) && err.status >= 400 && err.status < 600) {
+    return res.status(err.status).json({ error: err.message || 'Requisição inválida.' });
+  }
 
   if (err instanceof SyntaxError && 'body' in err) {
     return res.status(400).json({ error: 'JSON inválido' });

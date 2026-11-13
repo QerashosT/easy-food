@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff5a36">
+  <meta name="description" content="Cardápio e pratos do restaurante no EasyFood.">
+  <title>Cardápio — EasyFood</title>
+  <link rel="stylesheet" href="/assets/css/app.css?v=20261113">
+  <link rel="stylesheet" href="/assets/css/menu.css?v=20261113-2">
+  <script src="/assets/js/menu.js?v=20261113-3" defer></script>
+</head>
+<body data-page="menu">
+  <div class="noise" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="loading-shell" id="loadingScreen">
+    <section class="loading-card glass-card" aria-live="polite">
+      <div class="loading-mark">
+        <span class="loading-orbit orbit-one"></span>
+        <span class="loading-orbit orbit-two"></span>
+        <span class="loading-core">EF</span>
+      </div>
+      <p>Carregando cardápio...</p>
+    </section>
+  </main>
+
+  <main class="site-shell menu-shell hidden" id="appContent">
+    <nav class="topbar glass-card menu-topbar" aria-label="Navegação principal">
+      <a class="brand" href="/" aria-label="Voltar ao EasyFood">
+        <span class="brand-icon">✦</span>
+        <span>EasyFood</span>
+      </a>
+      <a class="back-link" href="/#catalogo"><span aria-hidden="true">←</span> Restaurantes</a>
+      <div class="account-area">
+        <div class="user-chip">
+          <button type="button" class="avatar avatar-button" id="userAvatar" aria-label="Alterar foto de perfil" title="Clique para alterar sua foto">E</button>
+          <input id="profileImageInput" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto de perfil">
+          <span class="user-meta">
+            <strong id="authStatus">Usuário</strong>
+            <small>Conta ativa</small>
+          </span>
+        </div>
+        <button type="button" id="logoutButton" class="icon-button" aria-label="Sair da conta" title="Sair">↗</button>
+      </div>
+    </nav>
+
+    <div id="pageStatus" class="menu-status" role="status" aria-live="polite"></div>
+
+    <section class="menu-hero glass-card">
+      <div class="menu-hero-copy">
+        <div class="menu-breadcrumb"><a href="/#catalogo">Restaurantes</a><span>/</span><span>Cardápio</span></div>
+        <span class="section-kicker" id="restaurantCategory">CARDÁPIO</span>
+        <h1 id="restaurantName">Carregando restaurante...</h1>
+        <p id="restaurantSummary">Veja os pratos disponíveis neste estabelecimento.</p>
+        <div class="menu-meta-row">
+          <span class="menu-rating" id="restaurantRating">★ —</span>
+          <span class="meta-separator"></span>
+          <span id="dishCount">Carregando pratos</span>
+        </div>
+      </div>
+      <div class="menu-hero-art" aria-hidden="true">
+        <div class="menu-art-plate"><span class="menu-art-food"></span></div>
+        <span class="menu-art-spark spark-one">✦</span>
+        <span class="menu-art-spark spark-two">✧</span>
+      </div>
+      <button type="button" id="openDishFormButton" class="menu-add-cta hidden">
+        <span class="cta-plus">＋</span><span>Cadastrar prato</span><span class="cta-arrow">→</span>
+      </button>
+    </section>
+
+    <p id="ownerNotice" class="menu-owner-notice hidden"></p>
+
+    <section id="dishManagement" class="menu-management glass-card hidden" aria-labelledby="dishManagementTitle">
+      <div class="management-heading">
+        <div>
+          <span class="section-kicker">ÁREA DO PROPRIETÁRIO</span>
+          <h2 id="dishManagementTitle">Cadastrar um prato</h2>
+          <p>Adicione nome, categoria, descrição e preço. A foto pode ser enviada depois do cadastro.</p>
+        </div>
+        <span class="owner-pill">Proprietário</span>
+      </div>
+
+      <form id="dishForm" class="menu-dish-form" novalidate>
+        <div class="form-fields">
+          <label>
+            <span>Nome do prato *</span>
+            <input id="dishName" name="name" type="text" maxlength="150" placeholder="Ex.: Nhoque artesanal" required>
+          </label>
+          <label>
+            <span>Categoria *</span>
+            <input id="dishCategory" name="category" type="text" maxlength="100" placeholder="Ex.: Massas, Sobremesas, Bebidas" required>
+          </label>
+          <label>
+            <span>Preço (R$) *</span>
+            <input id="dishPrice" name="price" type="number" min="0" max="1000000" step="0.01" inputmode="decimal" placeholder="Ex.: 39,90">
+          </label>
+          <label class="description-field">
+            <span>Descrição</span>
+            <textarea id="dishDescription" name="description" maxlength="1000" rows="4" placeholder="Ingredientes, acompanhamentos e detalhes do prato"></textarea>
+          </label>
+          <label class="upload-field">
+            <span>Foto do prato (JPG, PNG ou WebP, até 5 MB)</span>
+            <input id="dishImage" name="image" type="file" accept="image/jpeg,image/png,image/webp">
+            <small>A foto é enviada em uma etapa separada e será exibida no cardápio.</small>
+          </label>
+        </div>
+        <aside class="image-preview-panel" id="imagePreviewPanel">
+          <div class="image-preview-frame" id="imagePreviewFrame">
+            <div class="image-preview-placeholder" id="imagePreviewPlaceholder"><span>✦</span><small>Prévia da foto</small></div>
+            <img id="imagePreview" class="hidden" alt="Prévia da foto do prato">
+          </div>
+          <p id="imagePreviewCaption">Selecione uma imagem para visualizar como ela ficará no cardápio.</p>
+        </aside>
+        <div class="form-actions">
+          <button type="submit" id="dishSubmitButton" class="submit-button">Cadastrar prato <span>→</span></button>
+          <button type="button" id="cancelDishEdit" class="secondary-form-button hidden">Cancelar edição</button>
+          <button type="button" id="closeDishFormButton" class="text-form-button">Fechar formulário</button>
+        </div>
+        <p id="dishFormStatus" class="dish-form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="menu-dishes-section" aria-labelledby="dishesHeading">
+      <div class="menu-section-heading">
+        <div>
+          <span class="section-kicker">FEITO PARA ESCOLHER</span>
+          <h2 id="dishesHeading">Pratos deste restaurante</h2>
+        </div>
+        <p>As fotos aparecem em destaque para você conhecer cada opção antes de escolher.</p>
+      </div>
+      <div id="dishList" class="menu-dishes-grid" aria-live="polite">
+        <div class="menu-empty glass-card"><div class="empty-art">✦</div><h3>Carregando pratos...</h3></div>
+      </div>
+    </section>
+
+    <footer class="site-footer menu-footer">
+      <div class="brand footer-brand"><span class="brand-icon">✦</span><span>EasyFood</span></div>
+      <p>Seu universo gastronômico, mais perto.</p>
+      <a href="/#catalogo">Voltar aos restaurantes ↑</a>
+    </footer>
+  </main>
+</body>
+</html>

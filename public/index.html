@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ff5a36">
   <meta name="description" content="EasyFood — um painel moderno para organizar e cadastrar seus restaurantes favoritos.">
   <title>EasyFood — Seu universo gastronômico</title>
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260919">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20261113-2">
 </head>
 <body data-page="home">
   <div class="noise" aria-hidden="true"></div>
@@ -34,15 +34,16 @@
       <div class="nav-links">
         <a href="#overview">Visão geral</a>
         <a href="#catalogo">Restaurantes</a>
-        <a href="#cadastro">Cadastrar</a>
+        <a href="#cadastro">Novo restaurante</a>
       </div>
 
       <div class="account-area">
         <div class="user-chip">
-          <span class="avatar" id="userAvatar">E</span>
+          <button type="button" class="avatar avatar-button" id="userAvatar" aria-label="Alterar foto de perfil" title="Clique para alterar sua foto">E</button>
+          <input id="profileImageInput" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Selecionar foto de perfil">
           <span class="user-meta">
             <strong id="authStatus">Usuário autenticado</strong>
-            <small>Conta ativa</small>
+            <small>Conta ativa · clique na foto para editar</small>
           </span>
         </div>
         <button type="button" id="logoutButton" class="icon-button" aria-label="Sair da conta" title="Sair">↗</button>
@@ -55,7 +56,7 @@
       <div class="hero-copy">
         <div class="eyebrow"><span class="eyebrow-dot"></span> Gestão gastronômica sem complicação</div>
         <h1>Seu universo de restaurantes, <span>em uma única experiência.</span></h1>
-        <p class="hero-text">Organize seus estabelecimentos favoritos, acompanhe avaliações e mantenha tudo visualmente simples para decidir o próximo lugar.</p>
+        <p class="hero-text">Organize restaurantes, publique cardápios com fotos e mantenha os pratos de cada estabelecimento atualizados.</p>
 
         <div class="hero-actions">
           <a class="primary-cta" href="#cadastro">Cadastrar restaurante <span>↓</span></a>
@@ -76,15 +77,15 @@
         <div class="scene scene-backdrop">
           <div class="orb orb-large"></div>
           <div class="orb orb-small"></div>
-          <div class="floating-card floating-card-top tilt-card" data-tilt-strength="5">
+          <div class="floating-card floating-card-top">
             <span class="mini-icon">★</span>
             <span><b>Experiência</b><small>leve e intuitiva</small></span>
           </div>
-          <div class="floating-card floating-card-right tilt-card" data-tilt-strength="7">
+          <div class="floating-card floating-card-right">
             <span class="mini-icon warm">✦</span>
             <span><b>Favoritos</b><small>sempre por perto</small></span>
           </div>
-          <div class="plate-card tilt-card" data-tilt-strength="4">
+          <div class="plate-card">
             <div class="plate-shadow"></div>
             <div class="plate">
               <div class="plate-inner">
@@ -162,14 +163,14 @@
           <span class="section-kicker">Seu próximo registro</span>
           <h2>Adicione um novo restaurante.</h2>
         </div>
-        <p>Preencha os três campos e o novo estabelecimento aparecerá no catálogo.</p>
+        <p>Cadastre um restaurante. Sua conta ficará registrada como proprietária e poderá gerenciar os pratos dele.</p>
       </div>
 
       <section class="form-panel glass-card">
         <div class="form-panel-copy">
           <div class="panel-badge">NOVO</div>
-          <h3>Coloque um novo sabor no mapa.</h3>
-          <p>Quanto mais organizado seu catálogo, mais fácil fica encontrar o lugar certo para cada momento.</p>
+          <h3>Seu restaurante começa aqui.</h3>
+          <p>Quem cadastra o restaurante passa a ser seu proprietário e controla o cardápio.</p>
           <div class="micro-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
 
@@ -201,7 +202,7 @@
             <span class="section-kicker">Catálogo</span>
             <h2>Seus restaurantes.</h2>
           </div>
-          <p>Explore os estabelecimentos salvos e filtre por categoria.</p>
+          <p>Abra o cardápio de qualquer restaurante. Só o proprietário pode adicionar, editar ou excluir pratos.</p>
         </div>
         <label class="filter-wrap">
           <span>Filtrar por categoria</span>
@@ -223,6 +224,7 @@
       </div>
     </section>
 
+
     <section class="closing-section reveal">
       <div class="closing-glow"></div>
       <div class="closing-copy">
@@ -240,6 +242,6 @@
     </footer>
   </main>
 
-  <script src="/assets/js/app.js?v=20260919" defer></script>
+  <script src="/assets/js/app.js?v=20261113-3" defer></script>
 </body>
 </html>

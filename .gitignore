@@ -1,7 +1,21 @@
-# Arquivos de variáveis de ambiente e banco local
+# Segredos e configuração local
 .env
-*.db
-*.db-journal
 
-# Pastas de dependências
+# Dependências
 node_modules/
+
+# Uploads dos usuários: manter somente placeholders no Git
+/public/uploads/profiles/*
+!/public/uploads/profiles/.gitkeep
+/public/uploads/dishes/*
+!/public/uploads/dishes/.gitkeep
+
+# Logs e arquivos locais
+npm-debug.log*
+.DS_Store
+
+# Banco local SQLite gerado pelo Prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+/prisma/dev.db-shm
+/prisma/dev.db-wal

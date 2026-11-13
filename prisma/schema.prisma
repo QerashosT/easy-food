@@ -7,17 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Restaurant {
-  id       Int    @id @default(autoincrement())
-  name     String
-  category String
-  rating   Float?
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  imageUrl    String?
+  createdAt   DateTime     @default(now())
+  restaurants Restaurant[]
 }
 
-model User {
+model Restaurant {
+  id       Int      @id @default(autoincrement())
+  name     String
+  category String?
+  rating   Decimal?
+  ownerId  Int
+  owner    User     @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  dishes   Dish[]
+
+  @@index([ownerId])
+}
+
+model Dish {
+  id           Int        @id @default(autoincrement())
+  name         String
+  category     String
+  price        Decimal
+  imageUrl     String     @default("")
+  description  String
+  restaurantId Int
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@index([restaurantId])
+}
+
+model Activity {
   id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
+  action    String
+  details   String?
   createdAt DateTime @default(now())
 }

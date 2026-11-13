@@ -1,6 +1,6 @@
 import { findAllRestaurants, createRestaurant } from './restaurantService.js';
 
-export async function getRestaurants(req, res) {
+export async function getRestaurants(_req, res) {
   try {
     const restaurants = await findAllRestaurants();
     return res.json(restaurants);
@@ -26,7 +26,6 @@ export async function postRestaurant(req, res) {
   let normalizedRating = 0;
   if (rating !== undefined && rating !== null && rating !== '') {
     normalizedRating = Number(rating);
-
     if (!Number.isFinite(normalizedRating) || normalizedRating < 0 || normalizedRating > 5) {
       return res.status(400).json({ error: 'A avaliação deve estar entre 0 e 5' });
     }
@@ -36,7 +35,8 @@ export async function postRestaurant(req, res) {
     const novoRestaurante = await createRestaurant({
       name,
       category,
-      rating: normalizedRating
+      rating: normalizedRating,
+      ownerId: req.user.id
     });
 
     return res.status(201).json(novoRestaurante);

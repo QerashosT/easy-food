@@ -4,6 +4,7 @@ const API = {
 };
 
 let todosRestaurantes = [];
+let usuarioAtual = null;
 
 function obterToken() {
   return localStorage.getItem('token');
@@ -127,14 +128,18 @@ function exibirRestaurantes(lista) {
   }
 
   lista.forEach((rest, index) => {
-    const card = document.createElement('article');
+    const card = document.createElement('a');
+    const menuUrl = `/restaurantes/${encodeURIComponent(rest.id)}/cardapio`;
     card.className = 'restaurant-card tilt-card';
     card.dataset.tiltStrength = '5';
+    card.href = menuUrl;
+    card.setAttribute('aria-label', `Abrir cardápio de ${rest.name || 'restaurante'}`);
 
     const nome = escaparHTML(rest.name ?? 'Sem nome');
     const categoria = escaparHTML(rest.category ?? 'Sem categoria');
     const ratingValue = rest.rating == null ? null : Number(rest.rating);
     const rating = Number.isFinite(ratingValue) ? ratingValue.toFixed(1) : 'N/A';
+    const dishCount = Number(rest._count?.dishes || 0);
 
     card.innerHTML = `
       <div class="restaurant-top">
@@ -147,6 +152,10 @@ function exibirRestaurantes(lista) {
         <span>avaliação</span>
         <span class="rating">★ ${rating}</span>
       </div>
+      <div class="restaurant-card-actions">
+        <span>${dishCount} ${dishCount === 1 ? 'prato' : 'pratos'}</span>
+        <span class="menu-open-button">Ver cardápio <span aria-hidden="true">→</span></span>
+      </div>
     `;
 
     container.appendChild(card);
@@ -154,6 +163,7 @@ function exibirRestaurantes(lista) {
 
   aplicarTiltCards(container);
 }
+
 
 function atualizarFiltros(lista) {
   const select = document.getElementById('filtroCategory');
@@ -282,6 +292,50 @@ function configurarIdentidade(usuario) {
   status.textContent = nome;
   status.title = usuario?.email || nome;
   avatar.textContent = iniciais;
+  avatar.style.backgroundImage = '';
+
+  const imageUrl = typeof usuario?.imageUrl === 'string' && /^\/uploads\/profiles\/[a-z0-9-]+\.webp$/i.test(usuario.imageUrl)
+    ? usuario.imageUrl
+    : null;
+  if (imageUrl) {
+    avatar.textContent = '';
+    avatar.style.backgroundImage = `url("${imageUrl}")`;
+  }
+}
+
+async function enviarFotoPerfil(file) {
+  if (!file) return;
+  const allowed = new Set(['image/jpeg', 'image/png', 'image/webp']);
+  if (!allowed.has(file.type)) {
+    mostrarStatus('Formato inválido. Selecione JPEG, PNG ou WebP.', 'error');
+    document.getElementById('profileImageInput').value = '';
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    mostrarStatus('A foto deve ter no máximo 5 MB.', 'error');
+    document.getElementById('profileImageInput').value = '';
+    return;
+  }
+
+  const button = document.getElementById('userAvatar');
+  const input = document.getElementById('profileImageInput');
+  if (button) button.disabled = true;
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await apiFetch('/auth/me/image', { method: 'POST', body: formData });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Não foi possível atualizar a foto de perfil.');
+    usuarioAtual = data.user;
+    configurarIdentidade(data.user);
+    mostrarStatus('Foto de perfil atualizada com sucesso.', 'success');
+  } catch (error) {
+    if (error.message === 'UNAUTHORIZED') return;
+    mostrarStatus(error.message || 'Erro ao enviar a foto de perfil.', 'error');
+  } finally {
+    if (button) button.disabled = false;
+    if (input) input.value = '';
+  }
 }
 
 async function fazerLogout() {
@@ -325,7 +379,7 @@ function configurarInteracoes() {
     });
   });
 
-  aplicarTiltCards(document);
+  aplicarTiltCards(document.querySelector('#listaRestaurantes'));
 
   const revealItems = document.querySelectorAll('.reveal, .reveal-group');
   if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -346,16 +400,25 @@ async function iniciarHome() {
   const usuario = await validarSessao();
   if (!usuario) return;
 
+  usuarioAtual = usuario;
   configurarIdentidade(usuario);
   document.getElementById('loadingScreen')?.classList.add('hidden');
   document.getElementById('appContent')?.classList.remove('hidden');
   configurarInteracoes();
   await carregarRestaurantes();
+
+  // Quando o usuário volta do cardápio por /#catalogo, a Home só deixa de
+  // estar oculta depois da validação do token; reaplica a âncora nesse ponto.
+  if (window.location.hash) {
+    document.querySelector(window.location.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('formCadastro')?.addEventListener('submit', cadastrarRestaurante);
   document.getElementById('filtroCategory')?.addEventListener('change', filtrarRestaurantes);
   document.getElementById('logoutButton')?.addEventListener('click', fazerLogout);
+  document.getElementById('userAvatar')?.addEventListener('click', () => document.getElementById('profileImageInput')?.click());
+  document.getElementById('profileImageInput')?.addEventListener('change', (event) => enviarFotoPerfil(event.target.files?.[0]));
   iniciarHome();
 });
